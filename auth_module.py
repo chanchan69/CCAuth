@@ -13,14 +13,19 @@ def authenticate(username, password, hwid):
     if int(len(password)) == 0 or int(len(username)) == 0:
         return 'Error: Invalid User or password'
     
-    #r = requests.get(url=f'http://chanchan.pythonanywhere.com/api/v1/authenticate?key={apikey}', headers={"user": username, "pass": password, "hwid": hwid, "aid": aid}).text.encode()
+    
+    #s = requests.get(url=f'http://chanchan.pythonanywhere.com/api/v1/authenticate?key={apikey}', headers={"user": username, "pass": password, "hwid": hwid, "aid": aid}).text.encode()
+    #This one for no hash ^
     s = requests.get(url=f'http://chanchan.pythonanywhere.com/api/v1/authenticate?key={apikey}', headers={"user": username, "pass": password, "hwid": hwid, "aid": aid, "hash": Get_Hash()}).text.encode()
+    #This one for hash ^
     f = Fernet(client_secret)
     try:
         r = str(f.decrypt(s))
     except:
         if 'Error: Invalid Hash' in str(s):
             return '4'
+        else:
+            return 'Critical Error'
     
     ar = str(datetime.utcnow()).split(':')
     unix = ar[0] + ':' + ar[1]
@@ -42,7 +47,10 @@ def register(username, password, hwid, discordid, registerkey):
     
     s = requests.get(url=f'http://chanchan.pythonanywhere.com/api/v1/register?key={apikey}', headers={"user": username, "pass": password, "hwid": hwid, "regkey": registerkey, "discord": discordid, "aid": aid}).text.encode()
     f = Fernet(client_secret)
-    r = str(f.decrypt(s))
+    try:
+        r = str(f.decrypt(s))
+    except:
+        return 'critical error'
 
     if f'{username}:{password} registered successfuly' in r:
         return '0'
@@ -61,6 +69,8 @@ def hwid_change(username, password, hwid):
     except:
         if 'Error: HWID Resets no Enabled' in str(s):
             return '3'
+        else:
+            return 'critical error'
 
     if f'{username}:{password} hwid updated successfuly' in r:
         return '0'
@@ -85,4 +95,3 @@ def Get_Hash() -> str:
         return (md5.hexdigest())
     except Exception:
         return
-
