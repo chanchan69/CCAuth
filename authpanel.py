@@ -1,4 +1,3 @@
-
 import subprocess
 import requests
 from yaml import safe_load
@@ -32,6 +31,7 @@ config()
 
 
 r = requests.get(url=f'http://SirChanChan21.pythonanywhere.com/api/v1/getstats?key={apikey}', headers={"user": username, "pass": password, "aid": aid}).text
+
 split = r.split('\n')
 windll.kernel32.SetConsoleTitleW(f'{str(split[0])} | {str(split[1])} | {str(split[2])}')
 
@@ -83,9 +83,23 @@ def changehash():
     input(f'\n[ENTER] Return to the Main Menu ')
     system('cls')
     menu()
+def changever():
+    newver = input('New Version: ')
+    r = requests.get(url=f'http://SirChanChan21.pythonanywhere.com/api/v1/changeversion?key={apikey}', headers={"user": username, "pass": password, "aid": aid, "version": newver})
+    print(r.text)
+    input(f'\n[ENTER] Return to the Main Menu ')
+    system('cls')
+    menu()
+def changeannoucment():
+    newver = input('New Annoucment: ')
+    r = requests.get(url=f'http://SirChanChan21.pythonanywhere.com/api/v1/changeannoucment?key={apikey}', headers={"user": username, "pass": password, "aid": aid, "annoucment": newver})
+    print(r.text)
+    input(f'\n[ENTER] Return to the Main Menu ')
+    system('cls')
+    menu()
 
 def menu():
-    a = input(f'[1] Get Key\n[2] Get log\n[3] Get Databse\n[4] Enable/Disable HWID Resets\n[5] Enable/Disable Registration\n[6] Enable/Disable Use Hash\n[7] Change Hash\n')
+    a = input(f'[1] Get Key\n[2] Get log\n[3] Get Databse\n[4] Enable/Disable HWID Resets\n[5] Enable/Disable Registration\n[6] Enable/Disable Use Hash\n[7] Change Hash\n[8] Change Version\n[9] Change Annoucment\n')
     system('cls')
     if a == '1':
         getkey()
@@ -101,4 +115,8 @@ def menu():
         changehashmode()
     elif a == '7':
         changehash()
+    elif a == '8':
+        changever()
+    elif a == '9':
+        changeannoucment()
 menu()
