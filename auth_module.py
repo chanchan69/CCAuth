@@ -14,9 +14,9 @@ def authenticate(username, password, hwid):
         return 'Error: Invalid User or password'
     
     
-    #s = requests.get(url=f'http://chanchan.pythonanywhere.com/api/v1/authenticate?key={apikey}', headers={"user": username, "pass": password, "hwid": hwid, "aid": aid}).text.encode()
+    s = requests.get(url=f'http://sirchanchan21.pythonanywhere.com/api/v1/authenticate?key={apikey}', headers={"user": username, "pass": password, "hwid": hwid, "aid": aid}).text.encode()
     #This one for no hash ^
-    s = requests.get(url=f'http://chanchan.pythonanywhere.com/api/v1/authenticate?key={apikey}', headers={"user": username, "pass": password, "hwid": hwid, "aid": aid, "hash": Get_Hash()}).text.encode()
+    #s = requests.get(url=f'http://sirchanchan21.pythonanywhere.com/api/v1/authenticate?key={apikey}', headers={"user": username, "pass": password, "hwid": hwid, "aid": aid, "hash": Get_Hash()}).text.encode()
     #This one for hash ^
     f = Fernet(client_secret)
     try:
@@ -25,7 +25,7 @@ def authenticate(username, password, hwid):
         if 'Error: Invalid Hash' in str(s):
             return '4'
         else:
-            return 'Critical Error'
+            return 'Error: Critical Error'
     
     ar = str(datetime.utcnow()).split(':')
     unix = ar[0] + ':' + ar[1]
@@ -45,24 +45,24 @@ def register(username, password, hwid, discordid, registerkey):
     if int(len(password)) == 0 or int(len(username)) == 0:
         return 'Error: Invalid User or password'
     
-    s = requests.get(url=f'http://chanchan.pythonanywhere.com/api/v1/register?key={apikey}', headers={"user": username, "pass": password, "hwid": hwid, "regkey": registerkey, "discord": discordid, "aid": aid}).text.encode()
+    s = requests.get(url=f'http://sirchanchan21.pythonanywhere.com/api/v1/register?key={apikey}', headers={"user": username, "pass": password, "hwid": hwid, "regkey": registerkey, "discord": discordid, "aid": aid}).text.encode()
     f = Fernet(client_secret)
     try:
         r = str(f.decrypt(s))
     except:
-        return 'critical error'
+        return 'Error: Critical Error'
 
     if f'{username}:{password} registered successfuly' in r:
         return '0'
     elif 'bad key' in r:
         return '1'
     else:
-        return 'error' 
+        return 'Error: Critical Error' 
 
 def hwid_change(username, password, hwid):
     if int(len(password)) == 0 or int(len(username)) == 0:
         return 'Error: Invalid User or password'
-    s = requests.get(url=f'http://chanchan.pythonanywhere.com/api/v1/reset?key={apikey}', headers={"user": username, "pass": password, "newhwid": hwid, "aid": aid}).text.encode()
+    s = requests.get(url=f'http://sirchanchan21.pythonanywhere.com/api/v1/reset?key={apikey}', headers={"user": username, "pass": password, "newhwid": hwid, "aid": aid}).text.encode()
     f = Fernet(client_secret)
     try:
         r = str(f.decrypt(s))
@@ -95,3 +95,4 @@ def Get_Hash() -> str:
         return (md5.hexdigest())
     except Exception:
         return
+
