@@ -6,9 +6,9 @@ from time import sleep
 import random
 import string
 
-aid = 'a36kVacX2uybml8pFPAn'
-client_secret = 'QCU0CZHF3QnvueKDq-gStEk-cA2ma-SX6fVhw6B7Ru8='
-apikey = '9e2cnhmNEtycZ2Eob5PWZzzA7k5vHU6dJQGZJsgH'
+aid = ''
+client_secret = ''
+apikey = ''
 def authenticate(username, password, hwid):
     if int(len(password)) == 0 or int(len(username)) == 0:
         return 'Error: Invalid User or password'
