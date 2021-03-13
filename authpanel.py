@@ -100,7 +100,7 @@ def changeannoucment():
     menu()
 def gethwidkey():
     discordinput = input('Discord Name: ')
-    r = requests.get(url=f'http://ccauth.pythonanywhere.com/api/v1/gethwidkey?key=IryvtqVncsEm0dS5P7a8uvBycNU0wmry4fZqY6Gu', headers={"user": username, "pass": password, "aid": aid, 'discord': discordinput}).text
+    r = requests.get(url=f'http://ccauth.pythonanywhere.com/api/v1/gethwidkey?key={apikey}', headers={"user": username, "pass": password, "aid": aid, 'discord': discordinput}).text
     print(r)
     input(f'\n[ENTER] Return to the Main Menu ')
     system('cls')
