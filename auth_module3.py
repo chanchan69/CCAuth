@@ -39,6 +39,8 @@ def authenticate(username, password, hwid):
         return '2'
     elif 'Error: Bad Everything' in r:
         return '3'
+    elif f'{username}:{password} has an expired license' in r:
+        return '4'
     else:
         return 'error'
 
