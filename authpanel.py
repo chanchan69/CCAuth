@@ -35,9 +35,17 @@ r = requests.get(url=f'http://ccauth.pythonanywhere.com/api/v1/getstats?key={api
 #print(r)
 split = r.split('\n')
 windll.kernel32.SetConsoleTitleW(f'{str(split[0])} | {str(split[1])} | {str(split[2])}')
-
 def getkey():
-    r = requests.get(url=f'http://ccauth.pythonanywhere.com/api/v1/getkey?key={apikey}', headers={"user": username, "pass": password, "aid": aid})
+    r = requests.get(url=f'http://ccauth.pythonanywhere.com/api/v2/getkey?key={apikey}', headers={"user": username, "pass": password, "aid": aid})
+    print(f'''\n    ===========================
+     key: {r.text}
+    ===========================''')
+    input(f'\n[ENTER] Return to the Main Menu ')
+    system('cls')
+    menu()
+def getkeyexpire():
+    timea = input('expire time in days or months (1w for 1 week, 2m for 2 months)')
+    r = requests.get(url=f'http://ccauth.pythonanywhere.com/api/v2/getkey?key={apikey}', headers={"user": username, "pass": password, "aid": aid, "time": timea})
     print(f'''\n    ===========================
      key: {r.text}
     ===========================''')
@@ -100,13 +108,13 @@ def changeannoucment():
     menu()
 def gethwidkey():
     discordinput = input('Discord Name: ')
-    r = requests.get(url=f'http://ccauth.pythonanywhere.com/api/v1/gethwidkey?key={apikey}', headers={"user": username, "pass": password, "aid": aid, 'discord': discordinput}).text
+    r = requests.get(url=f'http://ccauth.pythonanywhere.com/api/v1/gethwidkey?key=IryvtqVncsEm0dS5P7a8uvBycNU0wmry4fZqY6Gu', headers={"user": username, "pass": password, "aid": aid, 'discord': discordinput}).text
     print(r)
     input(f'\n[ENTER] Return to the Main Menu ')
     system('cls')
     menu()
 def menu():
-    a = input(f'[1] Get Key\n[2] Get log\n[3] Get Databse\n[4] Enable/Disable HWID Resets\n[5] Enable/Disable Registration\n[6] Enable/Disable Use Hash\n[7] Change Hash\n[8] Change Version\n[9] Change Annoucment\n[10] Get HWID Reset Key\n')
+    a = input(f'[1] Get Key\n[2] Get log\n[3] Get Databse\n[4] Enable/Disable HWID Resets\n[5] Enable/Disable Registration\n[6] Enable/Disable Use Hash\n[7] Change Hash\n[8] Change Version\n[9] Change Annoucment\n[10] Get HWID Reset Key\n[11] Get Key (expiring)\n')
     system('cls')
     if a == '1':
         getkey()
@@ -128,4 +136,6 @@ def menu():
         changeannoucment()
     elif a == '10':
         gethwidkey()
+    elif a == '11':
+        getkeyexpire()
 menu()
