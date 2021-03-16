@@ -7,7 +7,7 @@ import time
 import subprocess
 import sys
 
-import auth_module
+import auth_module3 as auth_module2
 
 class Auth:
     def __init__(self):
@@ -24,7 +24,7 @@ class Auth:
             username = input(f"{Fore.LIGHTCYAN_EX}[{Fore.MAGENTA}1{Fore.LIGHTCYAN_EX}] Username:{Fore.MAGENTA} ")
             password = input(f"{Fore.LIGHTCYAN_EX}[{Fore.MAGENTA}2{Fore.LIGHTCYAN_EX}] Password:{Fore.MAGENTA} ")
             
-            r = auth_module.authenticate(username, password, hwid)
+            r = auth_module2.authenticate(username, password, hwid)
 
             if '0' in r:
                 print('authemticated')
@@ -42,6 +42,10 @@ class Auth:
                 print(f'{Fore.LIGHTGREEN_EX}[{Fore.LIGHTRED_EX}!{Fore.LIGHTGREEN_EX}]{Fore.LIGHTRED_EX} Invalid Username or Password and HWID')
                 input(f'{Fore.LIGHTCYAN_EX}[{Fore.LIGHTRED_EX}EXIT{Fore.LIGHTCYAN_EX}] Press ENTER to Exit')
                 sys.exit()
+            elif '4' in r:
+                print(f'{Fore.LIGHTGREEN_EX}[{Fore.LIGHTRED_EX}!{Fore.LIGHTGREEN_EX}]{Fore.LIGHTRED_EX} Your License Has Expired')
+                input(f'{Fore.LIGHTCYAN_EX}[{Fore.LIGHTRED_EX}EXIT{Fore.LIGHTCYAN_EX}] Press ENTER to Exit')
+                sys.exit()
             elif 'error' in r:
                 print(f'{Fore.LIGHTGREEN_EX}[{Fore.LIGHTRED_EX}!{Fore.LIGHTGREEN_EX}]{Fore.LIGHTRED_EX} An Error has Occured, Please Try Again')
                 input(f'{Fore.LIGHTCYAN_EX}[{Fore.LIGHTRED_EX}EXIT{Fore.LIGHTCYAN_EX}] Press ENTER to Exit')
@@ -50,6 +54,11 @@ class Auth:
                 print(f'{Fore.LIGHTGREEN_EX}[{Fore.LIGHTRED_EX}!{Fore.LIGHTGREEN_EX}]{Fore.LIGHTRED_EX} Invalid Username or Password')
                 input(f'{Fore.LIGHTCYAN_EX}[{Fore.LIGHTRED_EX}EXIT{Fore.LIGHTCYAN_EX}] Press ENTER to Exit')
                 sys.exit()
+            else:
+                print(f'{Fore.LIGHTGREEN_EX}[{Fore.LIGHTRED_EX}!{Fore.LIGHTGREEN_EX}]{Fore.LIGHTRED_EX} An Error has Occured, Please Try Again')
+                input(f'{Fore.LIGHTCYAN_EX}[{Fore.LIGHTRED_EX}EXIT{Fore.LIGHTCYAN_EX}] Press ENTER to Return to the Main Menu')
+                os.system('cls')
+                self.startMenu()
         
         elif menuinput.__contains__("2"):
             os.system('cls')
@@ -59,7 +68,7 @@ class Auth:
             registerkey = input(f"{Fore.LIGHTCYAN_EX}[{Fore.MAGENTA}4{Fore.LIGHTCYAN_EX}] Registration Key:{Fore.MAGENTA} ")
             hwid = subprocess.check_output('wmic csproduct get uuid').decode().split('\n')[1].strip()
 
-            r = auth_module.register(username, password, hwid, discordid, registerkey)
+            r = auth_module2.register(username, password, hwid, discordid, registerkey)
 
             if '0' in r:
                 print(f"{Fore.LIGHTRED_EX}[{Fore.LIGHTGREEN_EX}!{Fore.LIGHTRED_EX}]{Fore.LIGHTGREEN_EX} Congrats, {discordid}, You're Registered")
@@ -91,10 +100,11 @@ class Auth:
             os.system('cls')
             username = input(f"{Fore.LIGHTCYAN_EX}[{Fore.MAGENTA}1{Fore.LIGHTCYAN_EX}] Username:{Fore.MAGENTA} ")
             password = input(f"{Fore.LIGHTCYAN_EX}[{Fore.MAGENTA}2{Fore.LIGHTCYAN_EX}] Password:{Fore.MAGENTA} ")
+            hwidresetkey = input(f"{Fore.LIGHTCYAN_EX}[{Fore.MAGENTA}2{Fore.LIGHTCYAN_EX}] Hwid Reset Key:{Fore.MAGENTA} ")
             hwid = subprocess.check_output('wmic csproduct get uuid').decode().split('\n')[1].strip()
 
-            r = auth_module.hwid_change(username, password, hwid)
-
+            r = auth_module2.hwid_change(username, password, hwid, hwidresetkey)
+            print(r)
             if r == '1':
                 print(f'{Fore.LIGHTGREEN_EX}[{Fore.LIGHTRED_EX}!{Fore.LIGHTGREEN_EX}]{Fore.LIGHTRED_EX} Bad Credentials')
                 input(f'{Fore.LIGHTCYAN_EX}[{Fore.LIGHTRED_EX}EXIT{Fore.LIGHTCYAN_EX}] Press ENTER to Exit')
@@ -117,5 +127,10 @@ class Auth:
                 print(f'{Fore.LIGHTGREEN_EX}[{Fore.LIGHTRED_EX}!{Fore.LIGHTGREEN_EX}]{Fore.LIGHTRED_EX} An Error has Occured')
                 input(f'{Fore.LIGHTCYAN_EX}[{Fore.LIGHTRED_EX}EXIT{Fore.LIGHTCYAN_EX}] Press ENTER to Exit')
                 sys.exit()
+            else:
+                print(f'{Fore.LIGHTGREEN_EX}[{Fore.LIGHTRED_EX}!{Fore.LIGHTGREEN_EX}]{Fore.LIGHTRED_EX} An Error has Occured, Please Try Again')
+                input(f'{Fore.LIGHTCYAN_EX}[{Fore.LIGHTRED_EX}EXIT{Fore.LIGHTCYAN_EX}] Press ENTER to Return to the Main Menu')
+                os.system('cls')
+                self.startMenu()
 
 Auth()
