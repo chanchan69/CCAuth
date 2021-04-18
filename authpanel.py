@@ -36,7 +36,7 @@ r = requests.get(url=f'http://ccauth.pythonanywhere.com/api/v1/getstats?key={api
 split = r.split('\n')
 windll.kernel32.SetConsoleTitleW(f'{str(split[0])} | {str(split[1])} | {str(split[2])}')
 def getkey():
-    r = requests.get(url=f'http://ccauth.pythonanywhere.com/api/v2/getkey?key={apikey}', headers={"user": username, "pass": password, "aid": aid})
+    r = requests.get(url=f'http://ccauth.pythonanywhere.com/api/v1/getkey?key={apikey}', headers={"user": username, "pass": password, "aid": aid})
     print(f'''\n    ===========================
      key: {r.text}
     ===========================''')
