@@ -7,9 +7,9 @@ import random
 import string
 from json import loads
 
-aid = 'emWP3kMCf6ALTQis0ogk'
-client_secret = '9dLoBPa0RLIG8ZdvUeGWlHmSpkq1Gg0QClZll7wTHE8='
-apikey = 'IryvtqVncsEm0dS5P7a8uvBycNU0wmry4fZqY6Gu'
+aid = ''
+client_secret = ''
+apikey = ''
 def authenticate(username, password, hwid):
     if int(len(password)) == 0 or int(len(username)) == 0:
         return 'Error: Invalid User or password'
