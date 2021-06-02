@@ -64,9 +64,11 @@ class AdminPanel:
         a = input('Timed or Lifetime (1/2): ')
         if a == '1':
             time = input('How Long (1d, 1w, 1m, 12d, 17w, 69m): ')
-            error, key = self.auth.get_key('timed', time)
+            typeb = input('Account Type (blank for none): ')
+            error, key = self.auth.get_key('timed', time, typeb)
         elif a == '2':
-            error, key = self.auth.get_key('lifetime')
+            typeb = input('Account Type (blank for none): ')
+            error, key = self.auth.get_key('lifetime', typeb)
         else:
             print('invalid option')
             return
@@ -88,9 +90,9 @@ class AdminPanel:
         return
 
     def get_stats(self):
-        error, name, signins, users = self.auth.get_stats()
+        error, name, signins, users, teir = self.auth.get_stats()
         if not error:
-            windll.kernel32.SetConsoleTitleW(f'{name} | Signins: {signins} | Users: {users}')
+            windll.kernel32.SetConsoleTitleW(f'{name} | Signins: {signins} | Users: {users} | Plan: {teir}')
         else:
             print(name)
         return
@@ -169,13 +171,14 @@ class CCAUth:
         self.api_key = api_key
         self.aid = aid
 
-    def get_key(self, type1, timea=''):
+    def get_key(self, type1,  typea, timea=''):
         try:
             headers = {
                 "user": self.user,
                 "pass": self.password,
                 "aid": self.aid,
-                "data": '{"type": "' + type1 + '", "time": "' + timea + '"}'
+                "data": '{"type": "' + type1 + '", "time": "' + timea + '"}',
+                "userType": typea
             }
             r = requests.get(f'https://api.ccauth.app/api/v3/getkey?key={self.api_key}', headers=headers).json()
 
@@ -215,12 +218,12 @@ class CCAUth:
             r = requests.get(f'https://api.ccauth.app/api/v2/getstats?key={self.api_key}', headers=headers).json()
 
             if eval(r["success"]):
-                return False, r["app_name"], r["signins"], r["users"]
+                return False, r["app_name"], r["signins"], r["users"], r["plan"]
             else:
-                return True, 'an error has occurred: ' + str(r["reason"]), '', ''
+                return True, 'an error has occurred: ' + str(r["reason"]), '', '', ''
 
         except Exception as ex:
-            return True, 'an error has occurred: ' + str(ex), '', ''
+            return True, 'an error has occurred: ' + str(ex), '', '', ''
 
     def get_log(self):
         try:
