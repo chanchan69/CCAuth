@@ -65,7 +65,7 @@ class AdminPanel:
         if a == '1':
             time = input('How Long (1d, 1w, 1m, 12d, 17w, 69m): ')
             typeb = input('Account Type (blank for none): ')
-            error, key = self.auth.get_key('timed', time, typeb)
+            error, key = self.auth.get_key('timed', typeb, time)
         elif a == '2':
             typeb = input('Account Type (blank for none): ')
             error, key = self.auth.get_key('lifetime', typeb)
@@ -157,7 +157,7 @@ class AdminPanel:
 
     def change_announcement(self):
         a = input('New Announcement: ')
-        error, anc = self.auth.change_annoucement(a)
+        error, anc = self.auth.change_announcement(a)
         if not error:
             print('Announcement Changed To: ' + anc)
         else:
