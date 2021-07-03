@@ -38,7 +38,7 @@ def authenticate(username, password, hwid):
             print(r)
             return 'error'
 
-    if eval(r["is_Authenticated"]) and eval(r["session_ID"]) == sessionID:
+    if eval(r["is_Authenticated"]) and r["session_ID"] == sessionID:
         return '0'
     elif eval(r["invalid_hwid"]) and eval(r["invalid_credentials"]):
         return '3'
